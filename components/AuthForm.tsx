@@ -38,7 +38,15 @@ const AuthForm = ({ type }: { type: string }) => {
       resolver: zodResolver(formSchema),
       defaultValues: {
         email: "",
-        password: ''
+        password: '',
+        firstName: '',
+        lastName: '',
+        address1: '',
+        city: '',
+        state: '',
+        postalCode: '',
+        dateOfBirth: '',
+        ssn: '',
       },
     })
    
@@ -92,7 +100,7 @@ const AuthForm = ({ type }: { type: string }) => {
               height={34}
               alt="Kaya logo"
             />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Kaya</h1>
+            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Kaya | ቃያ</h1>
           </Link>
 
           <div className="flex flex-col gap-1 md:gap-3">

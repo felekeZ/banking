@@ -79,6 +79,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     const transferTransactionsData = await getTransactionsByBankId({
       bankId: bank.$id,
     });
+    console.log('TRANSACTIONDATA/////', transferTransactionsData)
 
     const transferTransactions = transferTransactionsData.documents.map(
       (transferData: Transaction) => ({
@@ -115,7 +116,7 @@ export const getAccount = async ({ appwriteItemId }: getAccountProps) => {
     };
 
     // sort transactions by date such that the most recent transaction is first
-      const allTransactions = [...transactions, ...transferTransactions].sort(
+      const allTransactions = [...transferTransactions].sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
 
@@ -153,39 +154,39 @@ export const getTransactions = async ({
   let hasMore = true;
   let transactions: any = [];
 
-  try {
-    // Iterate through each page of new transaction updates for item
-    while (hasMore) {
-      const response = await plaidClient.transactionsSync({
-        access_token: accessToken,
-      });
+  // try {
+  //   // Iterate through each page of new transaction updates for item
+  //   while (hasMore) {
+  //     const response = await plaidClient.transactionsSync({
+  //       access_token: accessToken,
+  //     });
 
-      if (response.data) {
-        const data = response.data;
+  //     if (response.data) {
+  //       const data = response.data;
 
-      transactions = response.data.added.map((transaction) => ({
-        id: transaction.transaction_id,
-        name: transaction.name,
-        paymentChannel: transaction.payment_channel,
-        type: transaction.payment_channel,
-        accountId: transaction.account_id,
-        amount: transaction.amount,
-        pending: transaction.pending,
-        category: transaction.category ? transaction.category[0] : "",
-        date: transaction.date,
-        image: transaction.logo_url,
-      }));
+  //     transactions = response.data.added.map((transaction) => ({
+  //       id: transaction.transaction_id,
+  //       name: transaction.name,
+  //       paymentChannel: transaction.payment_channel,
+  //       type: transaction.payment_channel,
+  //       accountId: transaction.account_id,
+  //       amount: transaction.amount,
+  //       pending: transaction.pending,
+  //       category: transaction.category ? transaction.category[0] : "",
+  //       date: transaction.date,
+  //       image: transaction.logo_url,
+  //     }));
 
-      hasMore = data.has_more;
-    }
-    else {
-        console.error("No data in response:", response);
-        break; // Exit the loop if no data is returned
-      }
-    }
+  //     hasMore = data.has_more;
+  //   }
+  //   else {
+  //       console.error("No data in response:", response);
+  //       break; // Exit the loop if no data is returned
+  //     }
+  //   }
 
-    return parseStringify(transactions);
-  } catch (error) {
-    console.error("An error occurred while getting the accounts:", error);
-  }
+  //   return parseStringify(transactions);
+  // } catch (error) {
+  //   console.error("An error occurred while getting the accounts:", error);
+  // }
 };
