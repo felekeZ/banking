@@ -48,8 +48,17 @@ export const signIn = async ({ email, password }: signInProps) => {
 
     return parseStringify(user);
   } catch (error) {
+   
     console.error('Error', error);
+
+    if (error instanceof Error) {
+      if (error.message.includes('Invalid credentials')) {
+        throw new Error('Incorrect email or password. Please try again.'); // Custom message for invalid credentials
+      }
+    }
+    throw new Error('An unexpected error occurred. Please try again later.');
   }
+  
 }
 
 export const signUp = async ({ password, ...userData }: SignUpParams) => {
@@ -59,6 +68,14 @@ export const signUp = async ({ password, ...userData }: SignUpParams) => {
 
   try {
     const { account, database } = await createAdminClient();
+    // Check if user already exists in the database
+    const userQuery = await database.listDocuments(DATABASE_ID!, USER_COLLECTION_ID!, [
+      Query.equal('email', email)
+    ]);
+
+    if (userQuery.documents.length > 0) {
+      return { error: 'User already exists' };
+    }
 
     newUserAccount = await account.create(
       ID.unique(), 

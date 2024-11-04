@@ -14,15 +14,16 @@ const Sidebar = ({ user }: SiderbarProps) => {
   return (
     <section className="sidebar">
       <nav className="flex flex-col gap-4">
-        <Link href="/" className="mb-12 cursor-pointer flex items-center gap-2">
+        <Link href="/" className="mb-12 cursor-pointer flex items-center">
           <Image 
-            src="/icons/logo.svg"
-            width={34}
-            height={34}
-            alt="Kaya | ቃያ logo"
-            className="size-[24px] max-xl:size-14"
+            src="/icons/logood.png"
+            width={100}
+            height={100}
+            alt="Kerod logo"
+            style={{}}
+            className="size-[90px] max-xl:size-60"
           />
-          <h1 className="sidebar-logo">Kaya | ቃያ</h1>
+          <h1 className="sidebar-logo" style={{marginLeft:'-15px'}}>Kerod</h1>
         </Link>
 
         {sidebarLinks.map((item) => {

@@ -40,12 +40,13 @@ const MobileNav = ({ user }: MobileNavProps) => {
           </SheetHeader>
           <Link href="/" className="cursor-pointer flex items-center gap-1 px-4">
             <Image 
-              src="/icons/logo.svg"
-              width={34}
-              height={34}
-              alt="Kaya | ቃያ logo"
+              src="/icons/logood.png"
+              width={100}
+              height={100}
+              alt="Kerod logo"
+              style={{marginLeft:'-30px'}}
             />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Kaya | ቃያ</h1>
+            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1" style={{marginLeft:'-15px'}}>Kerod</h1>
           </Link>
           <div className="mobilenav-sheet">
             <SheetClose asChild>

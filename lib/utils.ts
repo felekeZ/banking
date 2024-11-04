@@ -207,6 +207,37 @@ export const authFormSchema = (type: string) => z.object({
   ssn: type === 'sign-in' ? z.string().optional() : z.string().length(4).regex(/^\d{4}$/, "SSN must be 4 digits."),
 
   // both
-  email: z.string().email(),
-  password: z.string().min(8),
+  email: z.string().nonempty("Email is required.").email(),
+  password:  type === 'sign-in' ? z.string().nonempty("Password is required.") : z.string().nonempty("Password is required.").min(8),
+
+//   confirmPassword: type === 'sign-up' ? z.string().min(8, "Confirm Password must be at least 8 characters long.") : undefined,
+// }).refine(data => type === 'sign-up' ? data.password === data.confirmPassword : true, {
+//   message: "Passwords must match",
+//   path: ["confirmPassword"],
+  
 })
+
+// export const authFormSchema = (type: string) => {
+//   const schema = z.object({
+//     firstName: type === 'sign-in' ? z.string().optional() : z.string().min(3, "First name is required and must be at least 3 characters."),
+//     lastName: type === 'sign-in' ? z.string().optional() : z.string().min(3, "Last name is required and must be at least 3 characters."),
+//     address1: type === 'sign-in' ? z.string().optional() : z.string().max(50, "Address must not exceed 50 characters.").nonempty("Address is required."),
+//     city: type === 'sign-in' ? z.string().optional() : z.string().max(50, "City must not exceed 50 characters.").nonempty("City is required."),
+//     state: type === 'sign-in' ? z.string().optional() : z.string().length(2, "State must be a 2-letter abbreviation.").regex(/^[A-Z]{2}$/, "State must be uppercase letters."),
+//     postalCode: type === 'sign-in' ? z.string().optional() : z.string().length(5, "Postal code must be 5 digits.").regex(/^\d{5}$/, "Postal code must be numeric."),
+//     dateOfBirth: type === 'sign-in' ? z.string().optional() : z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Date of birth must be in YYYY-MM-DD format."),
+//     ssn: type === 'sign-in' ? z.string().optional() : z.string().length(4, "SSN must be 4 digits.").regex(/^\d{4}$/, "SSN must be numeric."),
+    
+//     // Common fields
+//     email: z.string().nonempty("Email is required.") .email("Invalid email format."),
+//     password: z.string().min(8, "Password must be at least 8 characters long."),
+//     confirmPassword: type === 'sign-in' 
+//       ? z.string().optional() 
+//       : z.string().min(8, "Confirm Password must be at least 8 characters long."),
+//   }).refine(data => data.password === data.confirmPassword, {
+//     message: "Passwords must match",
+//     path: ["confirmPassword"], // This sets the error path to confirmPassword
+//   });
+
+//   return schema;
+// };

@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
-
+import { toast } from 'react-toastify'; // Import the toast function
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -67,10 +67,14 @@ const AuthForm = ({ type }: { type: string }) => {
             dateOfBirth: data.dateOfBirth!,
             ssn: data.ssn!,
             email: data.email,
-            password: data.password
+            password: data.password,
           }
 
           const newUser = await signUp(userData);
+          if (newUser.error) {
+            toast.error(newUser.error);
+            return;
+          }
 
           setUser(newUser);
         }
@@ -81,10 +85,17 @@ const AuthForm = ({ type }: { type: string }) => {
             password: data.password,
           })
 
-          if(response) router.push('/')
-        }
+          if (response) {
+            toast.success('Welcome back! Waiting to open the home page.');
+            router.push('/');
+          }        }
       } catch (error) {
         console.log(error);
+        if (error instanceof Error) {
+          toast.error(error.message);
+        } else {
+          toast.error('An unknown error occurred. Please try again.'); 
+        }
       } finally {
         setIsLoading(false);
       }
@@ -93,14 +104,15 @@ const AuthForm = ({ type }: { type: string }) => {
   return (
     <section className="auth-form">
       <header className='flex flex-col gap-5 md:gap-8'>
+      <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">A Fintech Bank Application</h1>
           <Link href="/" className="cursor-pointer flex items-center gap-1">
             <Image 
-              src="/icons/logo.svg"
-              width={34}
-              height={34}
-              alt="Kaya logo"
+              src="/icons/logood.png"
+              width={100}
+              height={100}
+              alt="Kerod logo"
             />
-            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Kaya | ቃያ</h1>
+            <h1 className="text-26 font-ibm-plex-serif font-bold text-black-1">Kerod | ኬሮድ</h1>
           </Link>
 
           <div className="flex flex-col gap-1 md:gap-3">
@@ -150,7 +162,9 @@ const AuthForm = ({ type }: { type: string }) => {
               <CustomInput control={form.control} name='email' label="Email" placeholder='Enter your email' />
 
               <CustomInput control={form.control} name='password' label="Password" placeholder='Enter your password' />
-
+              {/* {type === 'sign-up' && (
+                <CustomInput control={form.control} name='confirmPassword' label="Confirm Password" placeholder='Confirm your password' 
+      />              )} */}
               <div className="flex flex-col gap-4">
                 <Button type="submit" disabled={isLoading} className="form-btn">
                   {isLoading ? (

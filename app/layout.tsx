@@ -12,10 +12,10 @@ const ibmPlexSerif = IBM_Plex_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "Kaya | ቃያ",
-  description: "Kaya | ቃያ is a modern banking platform for everyone.",
+  title: "Kerod | ኬሮድ",
+  description: "Kerod | ኬሮድ is a modern banking platform for everyone.",
   icons: {
-    icon: '/icons/logo.svg'
+    icon: '/icons/logood.png'
   }
 };
 
